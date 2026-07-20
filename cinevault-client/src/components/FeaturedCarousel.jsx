@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, Play, Plus, Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
   const [index, setIndex] = useState(0);
@@ -58,10 +59,13 @@ export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
         </p>
 
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-accent-from to-accent-to hover:opacity-90 transition-opacity">
-            <Play className="w-4 h-4 fill-white" />
-            Watch Now
-          </button>
+          <Link
+            to={`/media/${media._id}`}
+            className="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-accent-from to-accent-to hover:opacity-90 transition-opacity"
+>
+        <Play className="w-4 h-4 fill-white" />
+          Watch Now
+</Link>
           <button
             onClick={() => setInList((v) => !v)}
             className="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white border border-white/25 hover:bg-white/10 transition-colors"
