@@ -26,7 +26,7 @@ export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
 
   return (
     <section
-      className="relative h-[560px] w-full overflow-hidden"
+      className="relative h-[420px] sm:h-[480px] lg:h-[560px] w-full overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -39,22 +39,22 @@ export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
       <div className="absolute inset-0 bg-gradient-to-t from-base via-transparent to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-center max-w-xl px-16">
-        <span className="text-accent-from font-bold text-sm tracking-[0.2em] mb-3">
+      <div className="relative z-10 flex h-full flex-col justify-center max-w-xl px-6 sm:px-10 lg:px-16">
+        <span className="text-accent-from font-bold text-xs sm:text-sm tracking-[0.2em] mb-2 sm:mb-3">
           FEATURED
         </span>
-        <h1 className="text-6xl font-extrabold text-white mb-4 leading-none">
+        <h1 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold text-white mb-3 sm:mb-4 leading-tight">
           {media.title}
         </h1>
 
-        <div className="flex flex-wrap items-center gap-2 mb-4">
+        <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-4">
           <Badge>{media.year}</Badge>
           <Badge accent>{media.rating}</Badge>
           <Badge>{media.duration}</Badge>
           <Badge>{media.genre.join(' / ')}</Badge>
         </div>
 
-        <p className="text-gray-300 leading-relaxed mb-6 line-clamp-3">
+        <p className="hidden sm:block text-gray-300 leading-relaxed mb-6 line-clamp-3">
           {media.description}
         </p>
 
@@ -62,10 +62,10 @@ export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
           <Link
             to={`/media/${media._id}`}
             className="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-accent-from to-accent-to hover:opacity-90 transition-opacity"
->
-        <Play className="w-4 h-4 fill-white" />
-          Watch Now
-</Link>
+          >
+            <Play className="w-4 h-4 fill-white" />
+            Watch Now
+          </Link>
           <button
             onClick={() => setInList((v) => !v)}
             className="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white border border-white/25 hover:bg-white/10 transition-colors"
@@ -76,7 +76,7 @@ export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
         </div>
       </div>
 
-      {/* Arrows */}
+      {/* Arrows — hidden on mobile, swipe/autoplay handles navigation there */}
       {items.length > 1 && (
         <>
           <ArrowButton side="left" onClick={prev} />
@@ -86,7 +86,7 @@ export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
 
       {/* Dots */}
       {items.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
           {items.map((_, i) => (
             <button
               key={i}
@@ -108,7 +108,7 @@ export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
 function Badge({ children, accent }) {
   return (
     <span
-      className={`px-3 py-1 rounded-md text-sm font-semibold ${
+      className={`px-2.5 sm:px-3 py-1 rounded-md text-xs sm:text-sm font-semibold ${
         accent ? 'bg-accent-from/90 text-white' : 'bg-surface text-gray-200'
       }`}
     >
@@ -123,9 +123,9 @@ function ArrowButton({ side, onClick }) {
     <button
       onClick={onClick}
       aria-label={side === 'left' ? 'Previous' : 'Next'}
-      className={`absolute top-1/2 -translate-y-1/2 ${
+      className={`hidden sm:flex absolute top-1/2 -translate-y-1/2 ${
         side === 'left' ? 'left-6' : 'right-6'
-      } z-10 flex items-center justify-center w-10 h-10 rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors`}
+      } z-10 items-center justify-center w-10 h-10 rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors`}
     >
       <Icon className="w-5 h-5" />
     </button>

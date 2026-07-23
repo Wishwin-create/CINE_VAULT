@@ -37,7 +37,7 @@ export default function Auth() {
   return (
     <div className="min-h-screen bg-base">
       <Navbar />
-      <div className="max-w-md mx-auto mt-16 p-8 bg-surface rounded-xl">
+     <div className="max-w-md mx-4 sm:mx-auto mt-8 sm:mt-16 p-6 sm:p-8 bg-surface rounded-xl">
         <h1 className="text-2xl font-bold text-white mb-6">
           {mode === 'login' ? 'Log In' : 'Create Account'}
         </h1>
