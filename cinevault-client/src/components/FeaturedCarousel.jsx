@@ -1,11 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, Play, Plus, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { addToWatchlist, removeFromWatchlist } from '../api/watchlist';
 
 export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
   const [index, setIndex] = useState(0);
   const [inList, setInList] = useState(false);
   const [paused, setPaused] = useState(false);
+  const { user, token } = useAuth();
 
   const goTo = useCallback((i) => setIndex((i + items.length) % items.length), [items.length]);
   const next = useCallback(() => goTo(index + 1), [goTo, index]);
@@ -23,6 +26,24 @@ export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
 
   if (!items.length) return null;
   const media = items[index];
+
+   const handleToggleList = async () => {
+    if (!user) {
+      alert('Please log in to use My List');
+      return;
+    }
+    try {
+      if (inList) {
+        await removeFromWatchlist(media._id, token);
+        setInList(false);
+      } else {
+        await addToWatchlist(media._id, token);
+        setInList(true);
+      }
+    } catch (err) {
+      console.error('Watchlist error:', err);
+    }
+  };
 
   return (
     <section
@@ -67,7 +88,7 @@ export default function FeaturedCarousel({ items, autoPlayMs = 7000 }) {
             Watch Now
           </Link>
           <button
-            onClick={() => setInList((v) => !v)}
+            onClick={handleToggleList}
             className="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white border border-white/25 hover:bg-white/10 transition-colors"
           >
             {inList ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}

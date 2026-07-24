@@ -1,13 +1,32 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Play, Plus, Check, Star } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { addToWatchlist, removeFromWatchlist } from '../api/watchlist';
 
 export default function MediaCard({ media }) {
   const [inList, setInList] = useState(false);
+    const { user, token } = useAuth();
 
-  const handleToggleList = (e) => {
-    e.preventDefault(); // don't navigate when clicking the + button
-    setInList((v) => !v);
+   const handleToggleList = async (e) => {
+    e.preventDefault(); 
+
+   if (!user) {
+      alert('Please log in to use My List');
+      return;
+    }
+
+    try {
+      if (inList) {
+        await removeFromWatchlist(media._id, token);
+        setInList(false);
+      } else {
+        await addToWatchlist(media._id, token);
+        setInList(true);
+      }
+    } catch (err) {
+      console.error('Watchlist error:', err);
+    }
   };
 
   return (
